@@ -25,10 +25,12 @@ abstract class PublishBazaarTask() : DefaultTask() {
         val builtArtifacts = builtArtifactsLoader.get().load(apkFolder.get()) ?: throw RuntimeException()
         builtArtifacts.elements.single().let { buildArtifact ->
             val isSuccessful = ApiService.requestUploadingRelease(bazaarKey)
-            if(isSuccessful){
-                ApiService.startUploadingOnBazaar(bazaarKey, buildArtifact.outputFile)
-                println("Uploaded on Bazaar Successfully")
+            if(!isSuccessful){
+                println("Failed to create release")
             }
+            println("Release is created")
+            ApiService.startUploadingOnBazaar(bazaarKey, buildArtifact.outputFile)
+            println("Uploaded on Bazaar Successfully")
         }
     }
 }

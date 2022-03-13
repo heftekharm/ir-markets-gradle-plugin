@@ -17,12 +17,13 @@ object ApiService {
         }.let { portReq ->
             httpClient.execute(portReq)
         }.let {
+            println(it.statusLine)
             return it.statusLine.statusCode == 201
         }
     }
 
     @JvmStatic
-    fun startUploadingOnBazaar(bazaarKeyValue: String, apkPath: String) {
+    fun startUploadingOnBazaar(bazaarKeyValue: String, apkPath: String): Boolean {
         val apk = File(apkPath)
         println("publishing ${apk.name} on Bazaar Market")
         HttpPost("https://api.pishkhan.cafebazaar.ir/v1/apps/releases/upload/")
@@ -31,13 +32,13 @@ object ApiService {
                 val contentEntity = MultipartEntityBuilder.create()
                     .addTextBody("architecture", "all")
                     .addPart("apk",FileBody(apk, ContentType.create("application/vnd.android.package-archive")))
-                    //.addBinaryBody("apk", apk)
                     .build()
                 entity = contentEntity
             }.let {
                 httpClient.execute(it)
             }.let {
                 println(it.statusLine)
+                return it.statusLine.statusCode in 200 until 202
             }
     }
 }
