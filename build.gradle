@@ -1,21 +1,18 @@
 buildscript {
-    ext.kotlin_version = '1.5.10'
     repositories {
         google()
         mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 
 plugins {
+    id 'java-gradle-plugin'
     id 'org.jetbrains.kotlin.jvm' version '1.5.10'
     id 'java'
 }
 
-group 'org.hfm'
+group 'com.github.heftekharm'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -44,6 +41,16 @@ compileTestKotlin {
     }
 }
 
+gradlePlugin {
+    plugins{
+        irMarketsGradlePlugin {
+            id = '${group}.ir-markets-gradle-plugin'
+            implementationClass = 'GradleIrMarketsPublisher'
+            displayName = 'ir-markets-gradle-plugin'
+            description = 'Android grdale plugin to publish project outputs on Iranian App Markets(currently only CafeBazaar)'
+        }
+    }
+}
 
 test {
     useJUnitPlatform()
