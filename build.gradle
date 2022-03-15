@@ -12,7 +12,7 @@ plugins {
     id 'java'
 }
 
-group 'com.github.heftekharm'
+group 'io.github.heftekharm'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -44,7 +44,7 @@ compileTestKotlin {
 gradlePlugin {
     plugins{
         irMarketsGradlePlugin {
-            id = '${group}.ir-markets-gradle-plugin'
+            id = "${group}.ir-markets-gradle-plugin"
             implementationClass = 'GradleIrMarketsPublisher'
             displayName = 'ir-markets-gradle-plugin'
             description = 'Android grdale plugin to publish project outputs on Iranian App Markets(currently only CafeBazaar)'

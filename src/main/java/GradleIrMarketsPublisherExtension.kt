@@ -1,3 +1,3 @@
 abstract class GradleIrMarketsPublisherExtension {
-    var bazaarApiKey: String? = null
+    var cafeBazaarApiKey: String? = null
 }

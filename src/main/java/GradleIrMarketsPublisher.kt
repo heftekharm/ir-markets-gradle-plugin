@@ -12,7 +12,7 @@ class GradleIrMarketsPublisher : Plugin<Project> {
         androidCompExt.apply {
             onVariants(selector().withBuildType("release")) { variant ->
                 (variant as? ApplicationVariant)?.let {
-                    gradleIrMarketsPublisherExtension.bazaarApiKey?.let { bazaarkey ->
+                    gradleIrMarketsPublisherExtension.cafeBazaarApiKey?.let { bazaarkey ->
                         onReleaseVariant(project,variant,bazaarkey)
                     }
                 }
@@ -22,11 +22,12 @@ class GradleIrMarketsPublisher : Plugin<Project> {
 
 
     private fun onReleaseVariant(project: Project, variant: ApplicationVariant, bazaarKey: String) {
-        project.tasks.register("publishBazaar${variant.name}", PublishBazaarTask::class.java) { task ->
+        project.tasks.register("${Constants.TASKS_NAME_PREFIX}${variant.name}OnCafeBazaar", PublishBazaarTask::class.java) { task ->
             task.apply {
                 this.bazaarKey.set(bazaarKey)
                 this.apkFolder.set(variant.artifacts.get(SingleArtifact.APK))
                 this.builtArtifactsLoader.set(variant.artifacts.getBuiltArtifactsLoader())
+                group=Constants.TASKS_GROUP_NAME
             }
         }
     }
