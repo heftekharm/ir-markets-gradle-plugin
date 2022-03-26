@@ -6,7 +6,7 @@ import org.gradle.api.Project
 
 class GradleIrMarketsPublisher : Plugin<Project> {
     override fun apply(project: Project) {
-        val gradleIrMarketsPublisherExtension=project.extensions.create("irmarkets", GradleIrMarketsPublisherExtension::class.java)
+        val gradleIrMarketsPublisherExtension=project.extensions.create(Constants.EXTENSION_NAME, GradleIrMarketsPublisherExtension::class.java)
         val androidCompExt = project.extensions.getByType(AndroidComponentsExtension::class.java)
 
         androidCompExt.apply {

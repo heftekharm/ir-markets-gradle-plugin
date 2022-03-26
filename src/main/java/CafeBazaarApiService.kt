@@ -7,7 +7,7 @@ import java.io.File
 
 private const val API_KEY_HEADER = "CAFEBAZAAR-PISHKHAN-API-SECRET"
 
-object ApiService {
+object CafeBazaarApiService {
     private val httpClient = HttpClients.createDefault()
 
     @JvmStatic
