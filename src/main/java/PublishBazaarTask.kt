@@ -23,14 +23,17 @@ abstract class PublishBazaarTask() : DefaultTask() {
     fun publish() {
         val bazaarKey=this.bazaarKey.get()
         val builtArtifacts = builtArtifactsLoader.get().load(apkFolder.get()) ?: throw RuntimeException()
+
+        val cafeBazaarApiService=CafeBazaarApiService(bazaarKey)
+
         builtArtifacts.elements.single().let { buildArtifact ->
-            val isReleaseCreated = CafeBazaarApiService.requestUploadingRelease(bazaarKey)
+            val isReleaseCreated = cafeBazaarApiService.requestUploadingRelease()
             if(!isReleaseCreated){
                 println("Failed to create release")
                 return
             }
             println("Release is created")
-            val isUploaded=CafeBazaarApiService.startUploadingOnBazaar(bazaarKey, buildArtifact.outputFile)
+            val isUploaded=cafeBazaarApiService.startUploadingOnBazaar(buildArtifact.outputFile)
             if(!isUploaded){
                 println("Failed to upload app")
                 return

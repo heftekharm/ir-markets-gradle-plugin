@@ -7,13 +7,12 @@ import java.io.File
 
 private const val API_KEY_HEADER = "CAFEBAZAAR-PISHKHAN-API-SECRET"
 
-object CafeBazaarApiService {
+class CafeBazaarApiService(private val cafeBazaarApiKey: String) {
     private val httpClient = HttpClients.createDefault()
 
-    @JvmStatic
-    fun requestUploadingRelease(bazaarKeyValue: String):Boolean {
+    fun requestUploadingRelease():Boolean {
         HttpPost("https://api.pishkhan.cafebazaar.ir/v1/apps/releases/").apply {
-            addHeader(API_KEY_HEADER, bazaarKeyValue)
+            addHeader(API_KEY_HEADER, cafeBazaarApiKey)
         }.let { portReq ->
             httpClient.execute(portReq)
         }.let {
@@ -22,13 +21,12 @@ object CafeBazaarApiService {
         }
     }
 
-    @JvmStatic
-    fun startUploadingOnBazaar(bazaarKeyValue: String, apkPath: String): Boolean {
+    fun startUploadingOnBazaar(apkPath: String): Boolean {
         val apk = File(apkPath)
         println("publishing ${apk.name} on Bazaar Market")
         HttpPost("https://api.pishkhan.cafebazaar.ir/v1/apps/releases/upload/")
             .apply {
-                addHeader(API_KEY_HEADER, bazaarKeyValue)
+                addHeader(API_KEY_HEADER, cafeBazaarApiKey)
                 val contentEntity = MultipartEntityBuilder.create()
                     .addTextBody("architecture", "all")
                     .addPart("apk",FileBody(apk, ContentType.create("application/vnd.android.package-archive")))
