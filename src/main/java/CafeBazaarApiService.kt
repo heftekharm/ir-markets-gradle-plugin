@@ -13,7 +13,7 @@ private const val API_KEY_HEADER = "CAFEBAZAAR-PISHKHAN-API-SECRET"
 class CafeBazaarApiService(private val cafeBazaarApiKey: String) {
 
     private val httpClient = HttpClientBuilder.create()
-        .addInterceptorFirst(HttpRequestInterceptor { request, context ->
+        .addInterceptorFirst(HttpRequestInterceptor { request, _ ->
             request.addHeader(API_KEY_HEADER, cafeBazaarApiKey)
         }).build()
 
